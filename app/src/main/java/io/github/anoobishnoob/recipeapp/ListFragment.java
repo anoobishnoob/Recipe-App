@@ -15,13 +15,20 @@ import android.view.ViewGroup;
 
 public class ListFragment extends Fragment {
 
+
+    public interface OnRecipeSelectedInterface{
+        void onListRecipeSelected(int index);
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        OnRecipeSelectedInterface listener = (OnRecipeSelectedInterface) getActivity();
         View view = inflater.inflate(R.layout.fragment_list, container, false);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.listRecyclerView);
-        ListAdapter listAdapter = new ListAdapter();
+        ListAdapter listAdapter = new ListAdapter(listener); // we need to pass our listener into the listadapter so I am going to add it here
         recyclerView.setAdapter(listAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);

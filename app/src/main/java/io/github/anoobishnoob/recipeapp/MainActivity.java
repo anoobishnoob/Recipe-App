@@ -5,8 +5,9 @@ import android.app.FragmentTransaction;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ListFragment.OnRecipeSelectedInterface {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,5 +22,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    public void onListRecipeSelected(int index) {
+        Toast.makeText(MainActivity.this, Recipes.names[index], Toast.LENGTH_LONG).show();
     }
 }
