@@ -3,6 +3,7 @@ package io.github.anoobishnoob.recipeapp;
 //import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -41,13 +42,19 @@ public class ViewPagerFragment extends Fragment {
             public Fragment getItem(int position) {
                 return position == 0 ? ingredientsFragment : directionsFragment; // refactored this to one line of code. it does the same as the bottom code snippets that are commented out
             }
-
             @Override
             public int getCount() {
                 return 2;
             }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return position == 0 ? "Ingredients" : "Directions";
+            }
         });
 
+        TabLayout tabLayout = view.findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
 
         return view;
     }
