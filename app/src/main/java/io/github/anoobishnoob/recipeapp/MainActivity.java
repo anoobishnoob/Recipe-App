@@ -9,7 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements ListFragment.OnRecipeSelectedInterface {
+public class MainActivity extends AppCompatActivity
+        implements ListFragment.OnRecipeSelectedInterface, GridFragment.OnRecipeSelectedInterface{
 public static final String LIST_FRAGMENT = "list_fragment";
 public static final String VIEWPAGER_FRAGMENT = "view_fragment"; // ctrl+D duplicates a line
 //public static final String LIST_FRAGMENT = "listfragment";
@@ -21,18 +22,37 @@ public static final String VIEWPAGER_FRAGMENT = "view_fragment"; // ctrl+D dupli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        boolean isTablet = getResources().getBoolean(R.bool.is_tablet);
+        //Toast.makeText(this,isTablet +"" , Toast.LENGTH_SHORT).show();
+        if (!isTablet){
+            ListFragment savedFragment = (ListFragment) getSupportFragmentManager()
+                    .findFragmentByTag(LIST_FRAGMENT); // this creates a saved instance of your fragment at OnCreate.
 
-        ListFragment savedFragment = (ListFragment) getSupportFragmentManager()
-                .findFragmentByTag(LIST_FRAGMENT); // this creates a saved instance of your fragment at OnCreate.
+            if (savedFragment == null){ // code only launches once, so the fragments don't create new fragments when say rotating the screen, if this is null it will come in this code block
+                ListFragment fragment = new ListFragment();
 
-        if (savedFragment == null){ // code only launches once, so the fragments don't create new fragments when say rotating the screen, if this is null it will come in this code block
-            ListFragment fragment = new ListFragment();
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.placeholder, fragment, LIST_FRAGMENT); // these PSFS give it something to identify with, and make it so these are just using key value pairs to identify it
-            fragmentTransaction.commit();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.placeholder, fragment, LIST_FRAGMENT); // these PSFS give it something to identify with, and make it so these are just using key value pairs to identify it
+                fragmentTransaction.commit();
+            }
         }
+        else{
+            GridFragment savedFragment = (GridFragment) getSupportFragmentManager()
+                    .findFragmentByTag(LIST_FRAGMENT); // this creates a saved instance of your fragment at OnCreate.
+
+            if (savedFragment == null){ // code only launches once, so the fragments don't create new fragments when say rotating the screen, if this is null it will come in this code block
+                GridFragment fragment = new GridFragment();
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.placeholder, fragment, LIST_FRAGMENT); // these PSFS give it something to identify with, and make it so these are just using key value pairs to identify it
+                fragmentTransaction.commit();
+            }
+        }
+
+
+
 
 
 
@@ -49,5 +69,10 @@ public static final String VIEWPAGER_FRAGMENT = "view_fragment"; // ctrl+D dupli
         fragmentTransaction.replace(R.id.placeholder, fragment, VIEWPAGER_FRAGMENT);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onGridRecipeSelected(int index) {
+
     }
 }

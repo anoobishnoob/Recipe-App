@@ -20,5 +20,5 @@ public class DirectionsFragment extends CheckBoxesFragment{
     public String[] getContents(int index) {
         return Recipes.directions[index].split("`");
     }
-    
+
 }
