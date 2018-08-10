@@ -73,6 +73,14 @@ public static final String VIEWPAGER_FRAGMENT = "view_fragment"; // ctrl+D dupli
 
     @Override
     public void onGridRecipeSelected(int index) {
-
+        DualPaneFragment fragment = new DualPaneFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(ViewPagerFragment.KEY_RECIPE_INDEX, index);
+        fragment.setArguments(bundle);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.placeholder, fragment, VIEWPAGER_FRAGMENT);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }
